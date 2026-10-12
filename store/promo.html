@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- Promotional tiles for the stores. scripts/images.mjs renders this page as
+     promo-small.png (?tile=small, 440x280) and promo-marquee.png
+     (?tile=marquee, 1400x560). Colors come from scripts/palette.mjs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Verdant Ledger Light promotional tiles</title>
+<style>
+  /* Fonts from the Verdant Ledger website, under the SIL Open Font License
+     (see the OFL files next to them). */
+  @font-face { font-family: "Newsreader"; font-weight: 600; src: url("fonts/newsreader-latin-600-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Atkinson Hyperlegible Next"; font-weight: 400; src: url("fonts/atkinson-hyperlegible-next-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Atkinson Hyperlegible Next"; font-weight: 500; src: url("fonts/atkinson-hyperlegible-next-latin-500-normal.woff2") format("woff2"); }
+  :root {
+    --deep-evergreen: #1b2320;
+    --evergreen-gray: #5d6864;
+    --forest-green: #2d6a3b;
+    --pale-surface: #eef2ef;
+    --near-white: #f6f8f6;
+    --white: #ffffff;
+    --border: #cfd6d2;
+    --ochre: #b8860b;
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    background: var(--pale-surface);
+    color: var(--deep-evergreen);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  .tile { display: none; position: relative; width: 100%; height: 100%; }
+  body[data-tile="small"] .small,
+  body[data-tile="marquee"] .marquee { display: block; }
+
+  .swatches { display: flex; gap: 6px; }
+  .swatches span {
+    width: 26px; height: 26px; border-radius: 7px;
+    box-shadow: inset 0 0 0 1px rgb(27 35 32 / 0.18);
+  }
+
+  /* 440 x 280 */
+  .small { padding: 30px 32px; }
+  .small .rule { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--ochre); }
+  .small img { width: 72px; height: 72px; display: block; }
+  .small h1 { font: 600 34px/1.05 var(--serif); letter-spacing: -0.01em; margin-top: 16px; }
+  .small p { font-size: 15px; line-height: 1.35; color: var(--evergreen-gray); margin-top: 8px; }
+  .small .swatches { position: absolute; right: 32px; top: 30px; flex-direction: column; gap: 5px; }
+  .small .swatches span { width: 22px; height: 22px; border-radius: 6px; }
+
+  /* 1400 x 560 */
+  .marquee .rule { position: absolute; left: 72px; top: 72px; bottom: 72px; width: 6px; border-radius: 3px; background: var(--ochre); }
+  .marquee .text { position: absolute; left: 112px; top: 76px; width: 500px; }
+  .marquee .eyebrow { font: 500 15px/1 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--evergreen-gray); display: flex; align-items: center; gap: 14px; }
+  .marquee .eyebrow img { width: 44px; height: 44px; }
+  .marquee h1 { font: 600 62px/1.04 var(--serif); letter-spacing: -0.015em; margin-top: 30px; }
+  .marquee p { font-size: 20px; line-height: 1.45; color: var(--evergreen-gray); margin-top: 22px; }
+  .marquee .swatches { margin-top: 30px; }
+  .marquee .shot {
+    position: absolute; left: 690px; top: 64px; width: 960px;
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 60px rgb(27 35 32 / 0.16), 0 4px 14px rgb(27 35 32 / 0.08);
+  }
+  .marquee .shot img { display: block; width: 100%; }
+</style>
+</head>
+<body>
+  <div class="tile small">
+    <div class="rule"></div>
+    <img src="../images/icon.svg" alt="">
+    <h1>Verdant Ledger<br>Light</h1>
+    <p>A calm, low-glare light theme<br>for Chrome, Edge and Chromium.</p>
+    <div class="swatches"></div>
+  </div>
+
+  <div class="tile marquee">
+    <div class="rule"></div>
+    <div class="text">
+      <div class="eyebrow"><img src="../images/icon.svg" alt="">Browser theme · Light · Free</div>
+      <h1>Calm color for long days on the web.</h1>
+      <p>Soft green-tinted surfaces and deep evergreen text, with every pair checked for WCAG AA contrast. The companion to Verdant Ledger Light for VS Code.</p>
+      <div class="swatches"></div>
+    </div>
+    <div class="shot"><img src="screenshot-1.png" alt=""></div>
+  </div>
+
+<script>
+  const tile = new URLSearchParams(location.search).get("tile") || "small";
+  document.body.dataset.tile = tile;
+  const colors = ["#1b2320", "#5d6864", "#2d6a3b", "#eef2ef", "#f6f8f6", "#ffffff"];
+  for (const row of document.querySelectorAll(".swatches")) {
+    for (const color of colors) {
+      const swatch = document.createElement("span");
+      swatch.style.background = color;
+      row.append(swatch);
+    }
+  }
+</script>
+</body>
+</html>

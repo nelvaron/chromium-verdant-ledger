@@ -1,0 +1,96 @@
+name: Release
+
+# Push a tag such as v1.0.0 to build the ZIP, attach it to a GitHub release,
+# and upload it to the Chrome Web Store when its API credentials are set.
+# Microsoft Edge Add-ons is updated by hand; see CONTRIBUTING.md.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Validate theme
+        run: npm test
+
+      - name: Check that the tag matches theme/manifest.json
+        run: |
+          version=$(node -p "require('./theme/manifest.json').version")
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $version."
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "ZIP=dist/verdant-ledger-light-$version.zip" >> "$GITHUB_ENV"
+
+      - name: Package theme
+        run: node scripts/package.mjs
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk -v v="$VERSION" '
+            $0 ~ "^## " v "( |$)" { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          gh release create "$GITHUB_REF_NAME" "$ZIP" \
+            --title "Verdant Ledger Light $VERSION" \
+            --notes-file release-notes.md
+
+      - name: Upload to the Chrome Web Store
+        env:
+          CWS_CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CWS_CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+          CWS_PUBLISHER_ID: ${{ vars.CWS_PUBLISHER_ID }}
+          CWS_ITEM_ID: ${{ vars.CWS_ITEM_ID }}
+        run: |
+          if [ -z "$CWS_REFRESH_TOKEN" ] || [ -z "$CWS_ITEM_ID" ] || [ -z "$CWS_PUBLISHER_ID" ]; then
+            echo "::notice::Chrome Web Store credentials are not set, so the upload was skipped. Upload $ZIP from the release by hand."
+            exit 0
+          fi
+          token=$(curl --silent --show-error --fail-with-body https://oauth2.googleapis.com/token \
+            --data-urlencode "client_id=$CWS_CLIENT_ID" \
+            --data-urlencode "client_secret=$CWS_CLIENT_SECRET" \
+            --data-urlencode "refresh_token=$CWS_REFRESH_TOKEN" \
+            --data-urlencode "grant_type=refresh_token" | jq -r .access_token)
+          echo "::add-mask::$token"
+          api=https://chromewebstore.googleapis.com
+          item="publishers/$CWS_PUBLISHER_ID/items/$CWS_ITEM_ID"
+
+          response=$(curl --silent --show-error --fail-with-body -X POST \
+            -H "Authorization: Bearer $token" -T "$ZIP" "$api/upload/v2/$item:upload")
+          echo "$response"
+          # Large uploads are processed in the background; wait for them.
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            case "$response" in
+              *FAILED*) echo "::error::The Chrome Web Store rejected the upload."; exit 1 ;;
+              *IN_PROGRESS*) sleep 10 ;;
+              *) break ;;
+            esac
+            response=$(curl --silent --show-error --fail-with-body \
+              -H "Authorization: Bearer $token" "$api/v2/$item:fetchStatus")
+            echo "$response"
+          done
+
+          curl --silent --show-error --fail-with-body -X POST \
+            -H "Authorization: Bearer $token" "$api/v2/$item:publish"
+          echo
+          echo "::notice::Submitted $VERSION for review in the Chrome Web Store."
+
+      - name: Remind about Microsoft Edge Add-ons
+        run: |
+          echo "::notice::To update the Edge Add-ons listing, upload $ZIP at https://partner.microsoft.com/dashboard/microsoftedge/overview"

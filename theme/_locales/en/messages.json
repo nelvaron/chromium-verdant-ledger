@@ -1,0 +1,10 @@
+{
+  "name": {
+    "message": "Verdant Ledger Light",
+    "description": "Theme name. Keep it in English in every language."
+  },
+  "description": {
+    "message": "A calm, low-glare light theme in soft green-tinted neutrals and deep evergreen text, built to WCAG AA contrast.",
+    "description": "Short description shown in the store and on the extensions page. At most 132 characters."
+  }
+}

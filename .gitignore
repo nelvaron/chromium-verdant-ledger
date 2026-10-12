@@ -1,0 +1,12 @@
+# Packaged theme, and the cache Chromium writes when it loads theme/
+dist/
+theme/Cached Theme.pak
+
+# Node.js logs
+npm-debug.log*
+
+# Operating system and editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

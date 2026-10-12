@@ -1,0 +1,31 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Validate theme
+        run: npm test
+
+      - name: Package theme
+        run: node scripts/package.mjs
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: verdant-ledger-light-zip
+          path: dist/*.zip
+          if-no-files-found: error

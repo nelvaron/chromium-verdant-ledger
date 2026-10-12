@@ -1,0 +1,20 @@
+{
+  "name": "chromium-verdant-ledger",
+  "private": true,
+  "description": "Verdant Ledger Light, a calm, low-glare light theme for Chrome, Edge and other Chromium browsers.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nelvaron/chromium-verdant-ledger.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node scripts/validate.mjs",
+    "package": "node scripts/validate.mjs && node scripts/package.mjs",
+    "images": "node scripts/images.mjs",
+    "screenshots": "sh scripts/screenshots.sh"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_name__",
+  "description": "__MSG_description__",
+  "version": "1.0.0",
+  "default_locale": "en",
+  "homepage_url": "https://github.com/nelvaron/chromium-verdant-ledger",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [238, 242, 239],
+      "frame_inactive": [238, 242, 239],
+      "background_tab": [238, 242, 239],
+      "background_tab_inactive": [238, 242, 239],
+      "tab_text": [27, 35, 32],
+      "tab_background_text": [93, 104, 100],
+      "tab_background_text_inactive": [93, 104, 100],
+      "toolbar": [246, 248, 246],
+      "toolbar_text": [27, 35, 32],
+      "toolbar_button_icon": [93, 104, 100],
+      "bookmark_text": [27, 35, 32],
+      "omnibox_background": [255, 255, 255],
+      "omnibox_text": [27, 35, 32],
+      "ntp_background": [246, 248, 246],
+      "ntp_text": [27, 35, 32],
+      "ntp_link": [45, 106, 59],
+      "ntp_header": [93, 104, 100],
+      "button_background": [238, 242, 239, 0]
+    },
+    "properties": {
+      "ntp_logo_alternate": 1
+    }
+  }
+}
