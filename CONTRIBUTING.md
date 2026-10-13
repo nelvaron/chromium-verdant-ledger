@@ -148,7 +148,8 @@ To let the Release workflow upload later versions:
    **Actions** and add:
    - secrets `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, and `CWS_REFRESH_TOKEN`;
    - variables `CWS_PUBLISHER_ID` (from the dashboard's **Account** page)
-     and `CWS_ITEM_ID` (the 32-letter ID of the item).
+     and `CWS_ITEM_ID` (the 32-letter ID of the item,
+     `kpbfkockcbnoncanamgcnbfkiffannln` for this theme).
 
 See [Use the Chrome Web Store API](https://developer.chrome.com/docs/webstore/using-api)
 for details.
