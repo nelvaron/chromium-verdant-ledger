@@ -5,6 +5,8 @@ Chromium browsers. Soft green-tinted surfaces and deep evergreen text keep the
 browser quiet around the page, in the same colors as
 [Verdant Ledger Light for VS Code](https://github.com/nelvaron/vscode-verdant-ledger).
 
+**Install:** [Chrome Web Store](https://chromewebstore.google.com/detail/kpbfkockcbnoncanamgcnbfkiffannln)
+
 ![Verdant Ledger Light in Chromium, with two tabs and the bookmarks bar](store/screenshot-1.png)
 
 ## Highlights
@@ -25,10 +27,9 @@ browser quiet around the page, in the same colors as
 ## Install
 
 **Google Chrome:** open the theme in the
-[Chrome Web Store](https://chromewebstore.google.com/search/Verdant%20Ledger%20Light)
-and select **Add to Chrome**.
+[Chrome Web Store](https://chromewebstore.google.com/detail/kpbfkockcbnoncanamgcnbfkiffannln) and select **Add to Chrome**.
 
-**Microsoft Edge:** open the same Chrome Web Store page, select **Allow
+**Microsoft Edge:** open the same [Chrome Web Store page](https://chromewebstore.google.com/detail/kpbfkockcbnoncanamgcnbfkiffannln), select **Allow
 extensions from other stores** in the banner at the top, then **Add to
 Chrome**. Edge applies Chrome themes as they are.
 
